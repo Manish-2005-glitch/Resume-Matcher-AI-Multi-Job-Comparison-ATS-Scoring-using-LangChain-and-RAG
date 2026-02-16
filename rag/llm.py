@@ -6,7 +6,7 @@ load_dotenv()
 
 def get_llm():
     endpoint = HuggingFaceEndpoint(
-        repo_id = "deepseek-ai/DeepSeek-V3.2",
+        repo_id = "mistralai/Mistral-7B-Instruct-v0.2",
         task="text-generation",
 
         max_new_tokens=512,
