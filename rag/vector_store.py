@@ -1,5 +1,5 @@
 from langchain_community.vectorstores import Chroma
-from embeddings import get_embeddings
+from rag.embeddings import get_embeddings
 
 def create_vector_store(chunks):
     

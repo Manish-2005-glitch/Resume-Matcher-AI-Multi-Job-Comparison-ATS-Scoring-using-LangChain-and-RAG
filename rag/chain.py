@@ -1,8 +1,8 @@
 from langchain_text_splitters import CharacterTextSplitter
-from vector_store import create_vector_store
-from prompts import prompt
-from ats import ats_score
-from llm import get_llm
+from rag.vector_store import create_vector_store
+from rag.prompts import prompt
+from rag.ats import ats_score
+from rag.llm import get_llm
 
 
 llm = get_llm()
