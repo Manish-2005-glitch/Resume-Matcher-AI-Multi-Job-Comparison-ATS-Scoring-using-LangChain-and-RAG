@@ -3,38 +3,40 @@ import re
 SKILL_DB = [
 
 "python","java","c++","sql",
+
 "machine learning","deep learning",
 "nlp","computer vision",
-"pytorch","tensorflow","keras",
 
-"langchain","rag","llm",
-"transformers",
+"pytorch","tensorflow","scikit-learn",
+
+"langchain","rag","llm","transformers",
 
 "aws","gcp","azure",
-"docker","kubernetes",
 
-"fastapi","flask","streamlit",
+"fastapi","flask",
 
-"pandas","numpy","scikit-learn",
+"docker","kubernetes","git",
 
-"mongodb","postgresql",
+"pandas","numpy",
 
-"git","linux",
-
-"data science",
-"data analysis",
+"postgresql","mongodb",
 
 "react","nodejs"
 ]
 
-def extract_skill(resume):
-    resume = resume.lower()
-    skills= []
-    
+
+def extract_skills(text):
+
+    text = text.lower()
+
+    skills = []
+
     for skill in SKILL_DB:
-        pattern = r"\b" + re.escape(skill) + r"\b"
-        
-        if re.search(pattern, resume):
+
+        if re.search(
+            r"\b" + re.escape(skill) + r"\b",
+            text
+        ):
             skills.append(skill)
-            
+
     return skills

@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from rag.parser import parse_docx, parse_pdf
 from rag.chain import run_rag
 
-from engine.skill_extractor import extract_skill
+from engine.skill_extractor import extract_skills
 from engine.job_matcher import rank_jobs
 
 app = FastAPI(title="Resume Review RAG System")
@@ -17,11 +17,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from io import BytesIO
+
 @app.post("/analyze")
 async def analyze_resume(
 
     file: UploadFile = File(...),
-
     job1: str = Form(...),
     job2: str = Form(None),
     job3: str = Form(None)
@@ -30,12 +31,20 @@ async def analyze_resume(
 
     content = await file.read()
 
-    if file.filename.endswith(".pdf"):
-        resume = parse_pdf(file.file)
-    else:
-        resume = parse_docx(file.file)
+    file_obj = BytesIO(content)
 
-    skills = extract_skill(resume)
+    if file.filename.endswith(".pdf"):
+        resume = parse_pdf(file_obj)
+
+    elif file.filename.endswith(".docx"):
+        resume = parse_docx(file_obj)
+
+    else:
+        return {"error": "Unsupported file format"}
+
+
+    skills = extract_skills(resume)
+
 
     job_list = [job1, job2, job3]
     job_list = [j for j in job_list if j]
@@ -46,10 +55,7 @@ async def analyze_resume(
     best_job = rankings[0]["job_description"]
 
 
-    rag_result = run_rag(
-        resume,
-        best_job
-    )
+    rag_result = run_rag(resume, best_job)
 
 
     return {
