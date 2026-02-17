@@ -3,10 +3,12 @@ import requests
 
 import os
 
-BACKEND_URL = os.getenv(
-    "BACKEND_URL",
-    "http://127.0.0.1:8000/analyze"
-)
+BACKEND_URL = os.getenv("BACKEND_URL")
+
+if not BACKEND_URL:
+    st.error("BACKEND_URL environment variable not set")
+    st.stop()
+
 
 
 st.title("ResumeAI — Resume Matcher")
@@ -40,45 +42,55 @@ if st.button("Analyze Resume"):
 
 
         response = requests.post(
-
             BACKEND_URL,
-
             files={
                 "file": (
                     file.name,
-                    file.getvalue()
+                    file.getvalue(),
+                    file.type
                 )
             },
-
-            data=data
-
+            data={
+                "job1": job1,
+                "job2": job2,
+                "job3": job3
+            }
         )
 
+        st.write("Status Code:", response.status_code)
 
-        result = response.json()
+        try:
+            result = response.json()
+        except Exception:
+            st.error("Invalid response from backend")
+            st.text(response.text)
+            st.stop()
 
+        if response.status_code != 200:
+            st.error("Backend returned error")
+            st.json(result)
+            st.stop()
 
-        st.subheader("Skills")
+        required_keys = ["skills", "rankings", "ats_score", "missing_skills", "feedback"]
 
+        for key in required_keys:
+            if key not in result:
+                st.error(f"Missing key in response: {key}")
+                st.json(result)
+                st.stop()
+
+        st.subheader("Extracted Skills")
         st.write(result["skills"])
 
-
         st.subheader("Job Rankings")
-
         st.write(result["rankings"])
 
-
-        st.metric(
-            "ATS Score",
-            f"{result['ats_score']}%"
-        )
-
+        st.subheader("ATS Score")
+        st.metric("Score", f"{result['ats_score']}%")
 
         st.subheader("Missing Skills")
-
         st.write(result["missing_skills"])
 
-
         st.subheader("AI Feedback")
-
         st.write(result["feedback"])
+
