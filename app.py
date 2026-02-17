@@ -1,8 +1,11 @@
 import streamlit as st
 import requests
+import os
 
-
-BACKEND_URL = "https://resume-matcher-ai-multi-job-comparison.onrender.com"
+BACKEND_URL = os.getenv(
+    "BACKEND_URL",
+    "http://127.0.0.1:8000/analyze"
+)
 
 
 st.title("ResumeAI — Resume Matcher")
