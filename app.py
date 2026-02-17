@@ -5,7 +5,7 @@ import requests
 BACKEND_URL = "http://localhost:8000/analyze"
 
 
-st.title("ResumeAI — FAANG Resume Matcher")
+st.title("ResumeAI — Resume Matcher")
 
 
 file = st.file_uploader(
