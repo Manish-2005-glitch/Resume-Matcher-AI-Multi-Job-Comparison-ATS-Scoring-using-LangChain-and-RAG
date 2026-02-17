@@ -35,7 +35,7 @@ async def analyze_resume(
     else:
         resume = parse_docx(file.file)
 
-    skills = extract_skills(resume)
+    skills = extract_skill(resume)
 
     job_list = [job1, job2, job3]
     job_list = [j for j in job_list if j]
