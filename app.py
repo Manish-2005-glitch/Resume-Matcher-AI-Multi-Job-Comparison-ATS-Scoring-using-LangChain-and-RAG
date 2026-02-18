@@ -1,14 +1,11 @@
 import streamlit as st
 import requests
-
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 BACKEND_URL = os.getenv("BACKEND_URL")
-
-if not BACKEND_URL:
-    st.error("BACKEND_URL environment variable not set")
-    st.stop()
-
 
 
 st.title("ResumeAI — Resume Matcher")

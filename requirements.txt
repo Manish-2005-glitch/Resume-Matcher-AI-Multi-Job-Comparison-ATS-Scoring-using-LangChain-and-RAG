@@ -1,25 +1,18 @@
-fastapi
-uvicorn
+fastapi==0.110.0
+uvicorn==0.29.0
 python-multipart
 python-dotenv
 
-langchain
-langchain-community
-langchain-huggingface
+langchain==0.2.1
+langchain-community==0.2.1
+langchain-huggingface==0.0.3
 
-chromadb
-
-sentence-transformers==2.7.0
-
-transformers==4.41.2
-
-torch==2.2.2
+chromadb==0.5.3
 
 pymupdf
 python-docx
 
-numpy
+numpy==1.26.4
 scikit-learn
 
 huggingface_hub
-streamlit
