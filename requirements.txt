@@ -12,3 +12,7 @@ chromadb
 
 pymupdf
 python-docx
+
+streamlit
+requests
+
