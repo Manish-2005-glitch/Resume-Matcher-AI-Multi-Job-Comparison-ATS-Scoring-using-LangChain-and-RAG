@@ -1,12 +1,12 @@
 import os
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
-
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from dotenv import load_dotenv 
 
 load_dotenv()
 
 def get_embeddings():
-    return HuggingFaceInferenceAPIEmbeddings(
-        api_key=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN"),
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+
+    return HuggingFaceEndpointEmbeddings(
+        repo_id="sentence-transformers/all-MiniLM-L6-v2",
+        huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
     )
