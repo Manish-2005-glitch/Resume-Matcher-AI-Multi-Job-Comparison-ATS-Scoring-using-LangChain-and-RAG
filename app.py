@@ -39,7 +39,7 @@ if st.button("Analyze Resume"):
 
 
         response = requests.post(
-            BACKEND_URL,
+            f"{BACKEND_URL}/analyze",
             files={
                 "file": (
                     file.name,
