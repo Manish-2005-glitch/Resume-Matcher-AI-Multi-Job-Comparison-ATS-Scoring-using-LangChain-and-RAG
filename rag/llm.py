@@ -1,21 +1,18 @@
 import os
+from langchain_huggingface import ChatHuggingFace
+from huggingface_hub import InferenceClient
 from dotenv import load_dotenv
-from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 
 load_dotenv()
 
+
 def get_llm():
-    endpoint = HuggingFaceEndpoint(
-        repo_id = "mistralai/Mistral-7B-Instruct-v0.2",
-        task="text-generation",
 
-        max_new_tokens=512,
+    token = os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
 
-        temperature=0.2,
-
-        huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
+    client = InferenceClient(
+        model="HuggingFaceH4/zephyr-7b-beta",
+        token=token
     )
-    
-    llm = ChatHuggingFace(llm = endpoint)
-    
-    return llm
+
+    return ChatHuggingFace(llm=client)
